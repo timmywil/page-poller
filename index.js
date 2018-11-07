@@ -10,7 +10,7 @@ const argv = require('yargs')
       choices: ['west', 'east', 'aus', 'south', 'unplugged']
     },
     poll: {
-      default: 2000,
+      default: 5000,
       describe: 'Poll interval in milliseconds',
       type: 'number'
     }

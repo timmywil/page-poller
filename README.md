@@ -1,5 +1,7 @@
 # pax-poller
+
 A simple Node.js script that polls a PAX site and alerts when there's a change.
+This is easier on the CPU than a page refresher because it doesn't have to render the page.
 
 When there's a change, the script will stop polling, print a diff to the command line, and send a desktop notification.
 
@@ -25,9 +27,8 @@ $ ./index.js
 #### Options
 
 ```
-  --pax      PAX site to poll
-        [choices: "west", "east", "aus", "south", "unplugged"] [default: "west"]
-  --poll     Poll interval in milliseconds              [number] [default: 2000]
+  --pax      PAX site to poll      [choices: "west", "east", "aus", "south", "unplugged"] [default: "west"]
+  --poll     Poll interval in milliseconds              [number]                          [default: 5000]
   --help     Show help
   --version  Show version number
 ```
