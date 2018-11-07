@@ -25,9 +25,9 @@ $ ./index.js
 #### Options
 
 ```
-  --version  Show version number                                       [boolean]
   --pax      PAX site to poll
         [choices: "west", "east", "aus", "south", "unplugged"] [default: "west"]
   --poll     Poll interval in milliseconds              [number] [default: 2000]
-  --help     Show help                                                 [boolean]
+  --help     Show help
+  --version  Show version number
 ```
