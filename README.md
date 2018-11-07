@@ -21,7 +21,7 @@ $ git clone git@github.com:timmywil/pax-poller.git
 
 ```bash
 $ cd pax-poller
-$ ./index.js
+$ ./index.js # Leave open in a terminal and let it run. Ctrl-c to quit.
 ```
 
 #### Options
