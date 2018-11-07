@@ -1,0 +1,17 @@
+package.json
+package-lock.json
+node_modules/**
+*.snap
+.next/**
+coverage/**
+.git/**
+.idea/**
+.*
+static/**
+deploy/**
+*.sh
+Dockerfile
+.ebextensions/*
+ios/**
+android/**
+*.graphql

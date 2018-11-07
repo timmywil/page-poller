@@ -1,0 +1,24 @@
+{
+  "name": "pax",
+  "version": "1.0.0",
+  "description": "Check the pax site for changes and alert when a change is found.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Timmy Willison <4timmywil@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "diff": "^3.5.0",
+    "isomorphic-fetch": "^2.2.1",
+    "node-notifier": "^5.3.0"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always"
+  }
+}
