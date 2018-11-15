@@ -39,19 +39,19 @@ function getPage() {
 }
 
 function removeCsrf(text) {
-  return text.replace(/name=["']csrf_token['"] value=['"][\w\d]+['"]/, 'name="csrf_token"')
+  return text.replace(/name=["']csrf_token['"] value=['"][\w\d]+['"]/g, 'name="csrf_token"')
 }
 
 function removeCountdown(text) {
   return text.replace(/<p id="countdown">[\w\W]+<\/p>/, '')
 }
 
-function removeShopifyToken(text) {
-  return text.replace(/<script id=['"]swym-snippet['"]>[\w\W]*?<\/script>/, '')
+function removeScripts(text) {
+  return text.replace(/<script[\w\W]*?<\/script>/g, '')
 }
 
 function format(text) {
-  return removeShopifyToken(removeCountdown(removeCsrf(text)))
+  return removeScripts(removeCountdown(removeCsrf(text)))
 }
 
 let data
