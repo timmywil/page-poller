@@ -1,8 +1,8 @@
 {
-  "name": "pax-poller",
-  "version": "0.0.1",
-  "description": "Check a pax site for changes and alert when a change is found.",
-  "main": "index.js",
+  "name": "page-poller",
+  "version": "0.1.0",
+  "description": "Check a website for changes and alert when a change is found.",
+  "main": "page-poller.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

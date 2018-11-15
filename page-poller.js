@@ -1,34 +1,45 @@
 #!/usr/bin/env node
 require('isomorphic-fetch')
+const URL = require('url').URL
 
 const argv = require('yargs')
   .usage('$0 [args]')
   .options({
     pax: {
-      default: 'west',
       describe: 'PAX site to poll',
+      conflicts: 'url',
       choices: ['west', 'east', 'aus', 'south', 'unplugged']
     },
     poll: {
+      alias: 'p',
       default: 5000,
-      describe: 'Poll interval in milliseconds',
+      describe: 'Poll interval in milliseconds. Minimum is 500.',
       type: 'number'
+    },
+    url: {
+      alias: 'u',
+      describe: 'Override the polled URL',
+      conflicts: 'pax',
+      type: 'string'
     }
   })
   .help().argv
 const diff = require('diff')
 const chalk = require('chalk')
 const notifier = require('node-notifier')
+const unparsedUrl = argv.url || `http://${argv.pax.toLowerCase()}.paxsite.com`
+const url = new URL(unparsedUrl)
 
-const url = `http://${argv.pax.toLowerCase()}.paxsite.com`
-const pollTime = Math.max(argv.poll, 1000)
+const pollTime = Math.max(argv.poll, 500)
 
 function getPage() {
-  return fetch(url).then((response) => response.text())
+  // This is the only way to cache bust with node
+  url.search = url.search ? `${url.search}&${Date.now()}` : Date.now()
+  return fetch(url.href).then((response) => response.text())
 }
 
 function removeCsrf(text) {
-  return text.replace(/name="csrf_token" value="[\w\d]+"/, 'name="csrf_token"')
+  return text.replace(/name=["']csrf_token['"] value=['"][\w\d]+['"]/, 'name="csrf_token"')
 }
 
 function removeCountdown(text) {
@@ -43,7 +54,7 @@ let data
 
 function poll() {
   return getPage().then((text) => {
-    console.log(`GET ${url}: next poll in ${pollTime}ms`)
+    console.log(`GET ${unparsedUrl}: next poll in ${pollTime}ms`)
     text = format(text)
     if (!data) {
       data = text
@@ -54,12 +65,13 @@ function poll() {
       })
       console.log()
       notifier.notify({
-        title: 'PAX Poller',
-        message: 'PAX site has changed!',
+        title: 'Page Poller',
+        message: 'URL content has changed!',
         sound: true
       })
       return
     }
+
     setTimeout(poll, pollTime)
   })
 }
