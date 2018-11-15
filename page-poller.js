@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require('isomorphic-fetch')
 const URL = require('url').URL
+const open = require('opn')
 
 const argv = require('yargs')
   .usage('$0 [args]')
@@ -73,7 +74,8 @@ function poll() {
         message: 'URL content has changed!',
         sound: true
       })
-      return
+      open(unparsedUrl)
+      process.exit(0)
     }
 
     setTimeout(poll, pollTime)

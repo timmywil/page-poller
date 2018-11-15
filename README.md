@@ -6,7 +6,7 @@ This can be used for any website by setting the `--url` option. It strips csrf t
 
 I originally built this for myself to poll PAX sites to alert me when badges were available, and the `--pax` option is still there for that purpose.
 
-When there's a change, the script will stop polling, print a diff to the command line, and send a desktop notification.
+When there's a change, the script will stop polling, print a diff to the command line, send a desktop notification, and immediately open the page in your default browser.
 
 ![Notification screenshot](https://raw.githubusercontent.com/timmywil/page-poller/master/page-poller.png)
 
