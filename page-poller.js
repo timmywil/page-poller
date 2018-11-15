@@ -19,10 +19,16 @@ const argv = require('yargs')
     },
     url: {
       alias: 'u',
-      describe: 'Override the polled URL',
+      describe: 'URL to poll',
       conflicts: 'pax',
       type: 'string'
     }
+  })
+  .check((argv) => {
+    if (!argv.pax && !argv.url) {
+      throw new Error('Either pax or url must be specified.')
+    }
+    return argv
   })
   .help().argv
 const diff = require('diff')

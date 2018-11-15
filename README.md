@@ -31,7 +31,7 @@ $ ./page-poller.js --pax east
 #### Options
 
 ```
-  --url, -u   Override the polled URL                   [string]
+  --url, -u   URL to poll                               [string]
   --poll, -p  Poll interval in milliseconds             [number]       [default: 5000]
   --pax       PAX site to poll        [choices: "west", "east", "aus", "south", "unplugged"]
   --version   Show version number                       [boolean]
