@@ -46,8 +46,12 @@ function removeCountdown(text) {
   return text.replace(/<p id="countdown">[\w\W]+<\/p>/, '')
 }
 
+function removeShopifyToken(text) {
+  return text.replace(/<script id=['"]swym-snippet['"]>[\w\W]*?<\/script>/, '')
+}
+
 function format(text) {
-  return removeCountdown(removeCsrf(text))
+  return removeShopifyToken(removeCountdown(removeCsrf(text)))
 }
 
 let data
