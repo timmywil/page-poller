@@ -27,6 +27,11 @@ const argv = require('yargs')
       describe: 'URL to poll',
       conflicts: 'pax',
       type: 'string'
+    },
+    continual: {
+      alias: 'c',
+      describe: 'Continue polling even when there is a change',
+      type: 'boolean'
     }
   })
   .check((argv) => {
@@ -90,7 +95,11 @@ function poll() {
         sound: true
       })
       open(unparsedUrl)
-      process.exit(0)
+      if (argv.continual) {
+        data = text
+      } else {
+        process.exit(0)
+      }
     }
 
     setTimeout(poll, pollTime)
