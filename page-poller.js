@@ -3,10 +3,13 @@ require('isomorphic-fetch')
 const URL = require('url').URL
 const open = require('opn')
 
-const rcsrf = /name=["']csrf_token['"] value=['"][\w\d]+['"]/g
-const rcountdown = /<p id="countdown">[\w\W]+<\/p>/
-const rscripts = /<script[\w\W]*?<\/script>/g
-const rlinks = /<link[\w\W]*?\/>/g
+const removeRegex = {
+  csrf: /name=["']csrf_token['"] value=['"][\w\d]+['"]/g,
+  countdown: /<p id="countdown">[\w\W]+<\/p>/,
+  scripts: /<script[\w\W]*?<\/script>/g,
+  links: /<link[\w\W]*?\/?>/g,
+  meta: /<meta[\w\W]*?\/?>/g
+}
 
 const argv = require('yargs')
   .usage('$0 [args]')
@@ -55,24 +58,11 @@ function getPage() {
   return fetch(url.href).then((response) => response.text())
 }
 
-function removeCsrf(text) {
-  return text.replace(rcsrf, 'name="csrf_token"')
-}
-
-function removeCountdown(text) {
-  return text.replace(rcountdown, '')
-}
-
-function removeScripts(text) {
-  return text.replace(rscripts, '')
-}
-
-function removeLinks(text) {
-  return text.replace(rlinks, '')
-}
-
 function format(text) {
-  return removeLinks(removeScripts(removeCountdown(removeCsrf(text))))
+  return ['csrf', 'countdown', 'scripts', 'links', 'meta'].reduce(
+    (str, current) => str.replace(removeRegex[current], ''),
+    text
+  )
 }
 
 let data
