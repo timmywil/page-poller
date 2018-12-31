@@ -18,6 +18,7 @@ Requires [Node.js](https://nodejs.org/en/download/) to run.
 
 ```bash
 $ git clone git@github.com:timmywil/page-poller.git
+$ npm install
 ```
 
 ## Usage
