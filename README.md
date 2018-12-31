@@ -18,13 +18,13 @@ Requires [Node.js](https://nodejs.org/en/download/) to run.
 
 ```bash
 $ git clone git@github.com:timmywil/page-poller.git
+$ cd page-poller
 $ npm install
 ```
 
 ## Usage
 
 ```bash
-$ cd page-poller
 $ ./page-poller.js -u https://timmywil.com # Leave open in a terminal and let it run. Ctrl-c to quit.
 $ ./page-poller.js --pax east
 ```
