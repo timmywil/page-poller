@@ -1,5 +1,7 @@
 # page-poller
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/timmywil/page-poller.svg)](https://greenkeeper.io/)
+
 A simple Node.js script that polls a website and alerts when there's a change. This is easier on the CPU than a page refresher because it doesn't have to render the page. However, it does not detect content changes that are solely rendered by JavaScript after page load.
 
 This can be used for any website by setting the `--url` option. It strips csrf tokens and all script tags, which sometimes contain tokens that are supposed to change on every refresh. I may add functionality to select certain parts of a page to check for changes, but for now it just checks whole pages.
