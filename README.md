@@ -1,6 +1,6 @@
 # page-poller
 
-page-poller is a simple Node.js script that polls a website and alerts when there's a change. It uses a headless browser (through the use of [Puppeteer](https://github.com/puppeteer/puppeteer/) to render the page. The advantage is that it will catch changes in client-rendered content, such as with Single Page Apps that use JavaScript to render content.
+page-poller is a simple Node.js script that polls a website and alerts when there's a change. It uses a headless browser (via [Puppeteer](https://github.com/puppeteer/puppeteer/)) to render the page. The advantage is that it will catch changes in client-rendered content, such as with Single Page Apps that use JavaScript to render content.
 
 | Static pages       | Pages rendered with JS | Pages behind login |
 | ------------------ | ---------------------- | ------------------ |
