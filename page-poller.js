@@ -79,7 +79,6 @@ const pollTime = Math.max(argv.poll, 500)
 
   async function poll() {
     const content = await getPageContent()
-    console.log(content)
     if (argv.verbose) {
       console.log(`GET ${unparsedUrl}: next poll in ${pollTime}ms`)
     }
