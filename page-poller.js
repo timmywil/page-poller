@@ -35,6 +35,11 @@ const argv = require('yargs')
       alias: 'c',
       describe: 'Continue polling even when there is a change',
       type: 'boolean'
+    },
+    verbose: {
+      alias: 'v',
+      describe: 'Log every poll',
+      type: 'boolean'
     }
   })
   .check((argv) => {
@@ -69,7 +74,9 @@ let data
 
 function poll() {
   return getPage().then((text) => {
-    console.log(`GET ${unparsedUrl}: next poll in ${pollTime}ms`)
+    if (argv.verbose) {
+      console.log(`GET ${unparsedUrl}: next poll in ${pollTime}ms`)
+    }
     text = format(text)
     if (!data) {
       data = text
@@ -96,4 +103,5 @@ function poll() {
   })
 }
 
+console.log(`Checking ${url.href} every ${pollTime}ms.`)
 poll()
