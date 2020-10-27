@@ -103,5 +103,5 @@ function poll() {
   })
 }
 
-console.log(`Checking ${url.href} every ${pollTime}ms.`)
+console.log(`Checking ${url.href} every ${pollTime}ms...`)
 poll()
