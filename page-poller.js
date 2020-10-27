@@ -1,12 +1,16 @@
 #!/usr/bin/env node
-require('isomorphic-fetch')
+const puppeteer = require('puppeteer')
 const URL = require('url').URL
 const open = require('opn')
+const diff = require('diff')
+const chalk = require('chalk')
+const notifier = require('node-notifier')
 
 const removeRegex = {
   csrf: /name=["']csrf_token['"] value=['"][\w\d]+['"]/g,
   countdown: /<p id="countdown">[\w\W]+<\/p>/,
   scripts: /<script[\w\W]*?<\/script>/g,
+  iframes: /<iframe[\w\W]*?<\/iframe>/g,
   links: /<link[\w\W]*?\/?>/g,
   meta: /<meta[\w\W]*?\/?>/g
 }
@@ -49,39 +53,40 @@ const argv = require('yargs')
     return argv
   })
   .help().argv
-const diff = require('diff')
-const chalk = require('chalk')
-const notifier = require('node-notifier')
 const unparsedUrl = argv.url || `http://${argv.pax.toLowerCase()}.paxsite.com`
 const url = new URL(unparsedUrl)
-
 const pollTime = Math.max(argv.poll, 500)
 
-function getPage() {
-  // This is the only way to cache bust with node
-  url.search = url.search ? `${url.search}&${Date.now()}` : Date.now()
-  return fetch(url.href).then((response) => response.text())
-}
+;(async () => {
+  const browser = await puppeteer.launch()
+  const page = await browser.newPage()
 
-function format(text) {
-  return ['csrf', 'countdown', 'scripts', 'links', 'meta'].reduce(
-    (str, current) => str.replace(removeRegex[current], ''),
-    text
-  )
-}
+  function format(text) {
+    return Object.keys(removeRegex).reduce(
+      (str, current) => str.replace(removeRegex[current], ''),
+      text
+    )
+  }
 
-let data
+  async function getPageContent() {
+    // This is the only way to cache bust with node
+    url.search = url.search ? `${url.search}&${Date.now()}` : Date.now()
+    await page.goto(url.href, { waitUntil: 'networkidle0' })
+    return format(await page.content())
+  }
 
-function poll() {
-  return getPage().then((text) => {
+  let data
+
+  async function poll() {
+    const content = await getPageContent()
+    console.log(content)
     if (argv.verbose) {
       console.log(`GET ${unparsedUrl}: next poll in ${pollTime}ms`)
     }
-    text = format(text)
     if (!data) {
-      data = text
-    } else if (data !== text) {
-      const parts = diff.diffChars(data, text)
+      data = content
+    } else if (data !== content) {
+      const parts = diff.diffChars(data, content)
       parts.forEach((part) => {
         console.log(chalk[part.added ? 'green' : 'red'](part.value))
       })
@@ -93,15 +98,17 @@ function poll() {
       })
       open(unparsedUrl)
       if (argv.continual) {
-        data = text
+        data = content
       } else {
+        await browser.close()
         process.exit(0)
       }
     }
 
     setTimeout(poll, pollTime)
-  })
-}
+  }
 
-console.log(`Checking ${url.href} every ${pollTime}ms...`)
-poll()
+  console.log(`Checking ${url.href} every ${pollTime}ms...`)
+  poll()
+
+})()
