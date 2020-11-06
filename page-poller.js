@@ -8,7 +8,7 @@ const notifier = require('node-notifier')
 
 const removeRegex = {
   csrf: /name=["']csrf_token['"] value=['"][\w\d]+['"]/g,
-  countdown: /<([^s]+).*?(?:id|class)="countdown.*?>[^]+<\/\1>/ig,
+  countdown: /<([^\s]+).*?(?:id|class)=["'][^"']*countdown.*?>[^]+<\/\1>/ig,
   scripts: /<script[\w\W]*?<\/script>/g,
   iframes: /<iframe[\w\W]*?<\/iframe>/g,
   links: /<link[\w\W]*?\/?>/g,
