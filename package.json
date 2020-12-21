@@ -11,7 +11,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "diff": "^4.0.2",
-    "node-notifier": "^8.0.0",
+    "node-notifier": "^8.0.1",
     "opn": "^6.0.0",
     "puppeteer": "^5.4.1",
     "yargs": "^16.1.0"
